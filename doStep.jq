@@ -1,3 +1,5 @@
+# doStep.jq
+
 def getPlayer:
   . as $field |
   $field | length as $rowCount |
@@ -9,9 +11,9 @@ def getPath:
   .player.row as $r | .player.col as $c | { key: "\($r):\($c)", value: .field[$r][$c] } as $p |
   if .dir == "r" and (.player.col + 2) < (.field[.player.row] | length) then 
      [$p, { key: "\($r):\($c+1)", value: .field[$r][$c+1] }, { key: "\($r):\($c+2)", value: .field[$r][$c+2] }] 
-  elif .dir == "l" and (.player.col - 2) > 0 then
+  elif .dir == "l" and (.player.col - 2) >= 0 then
      [$p, { key: "\($r):\($c-1)", value: .field[$r][$c-1] }, { key: "\($r):\($c-2)", value: .field[$r][$c-2] }] 
-  elif .dir == "u" and (.player.row - 2) > 0 then
+  elif .dir == "u" and (.player.row - 2) >= 0 then
      [$p, { key: "\($r-1):\($c)", value: .field[$r-1][$c] }, { key: "\($r-2):\($c)", value: .field[$r-2][$c] }]
   elif .dir == "d" and (.player.row + 2) < (.field | length) then
      [$p, { key: "\($r+1):\($c)", value: .field[$r+1][$c] }, { key: "\($r+2):\($c)", value: .field[$r+2][$c] }]
